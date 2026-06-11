@@ -1,5 +1,5 @@
 class AppConstants {
-  static const String appName = 'NoteAlert';
+  static const String appName = 'Sticky Notes';
   static const String hiveBoxNotes = 'notes_box';
   static const String hiveBoxSettings = 'settings_box';
   static const String hiveBoxReminders = 'reminders_box';

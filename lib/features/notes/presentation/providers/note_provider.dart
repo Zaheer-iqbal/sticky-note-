@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sticky_notes/core/models/note_model.dart';
 import 'package:sticky_notes/features/notes/data/datasources/note_local_datasource.dart';
 import 'package:sticky_notes/features/notes/data/repositories/note_repository_impl.dart';
@@ -75,6 +76,13 @@ class NoteNotifier extends StateNotifier<AsyncValue<List<NoteModel>>> {
 
   Future<void> togglePin(String id) async {
     await _repository.togglePin(id);
+    await loadNotes();
+  }
+
+  Future<void> clearAllNotes() async {
+    state = const AsyncValue.loading();
+    final box = Hive.box<NoteModel>('notes_box');
+    await box.clear();
     await loadNotes();
   }
 }

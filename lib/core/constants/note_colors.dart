@@ -21,7 +21,13 @@ class NoteColors {
     'White': white,
   };
 
-  static Color fromName(String name) => colors[name] ?? white;
+  static Color fromName(String name) {
+    final key = colors.keys.firstWhere(
+      (k) => k.toLowerCase() == name.toLowerCase(),
+      orElse: () => 'White',
+    );
+    return colors[key] ?? white;
+  }
 
   static String nameFromColor(Color color) {
     return colors.entries

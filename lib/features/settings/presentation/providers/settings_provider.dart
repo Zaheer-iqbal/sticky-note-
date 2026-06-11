@@ -16,8 +16,7 @@ final settingsRepositoryProvider = Provider<SettingsRepository>((ref) {
 });
 
 final settingsProvider = Provider<SettingsModel>((ref) {
-  final repo = ref.watch(settingsRepositoryProvider);
-  return repo.getSettings();
+  return ref.watch(settingsNotifierProvider);
 });
 
 final isDarkModeProvider = Provider<bool>((ref) {
@@ -32,19 +31,51 @@ class SettingsNotifier extends StateNotifier<SettingsModel> {
 
   Future<void> toggleDarkMode() async {
     await _repository.toggleDarkMode();
-    state = _repository.getSettings();
+    final s = _repository.getSettings();
+    state = SettingsModel(
+      isDarkMode: s.isDarkMode,
+      notificationsEnabled: s.notificationsEnabled,
+      profileName: s.profileName,
+      profileImagePath: s.profileImagePath,
+    );
   }
 
   Future<void> toggleNotifications() async {
     await _repository.toggleNotifications();
-    state = _repository.getSettings();
+    final s = _repository.getSettings();
+    state = SettingsModel(
+      isDarkMode: s.isDarkMode,
+      notificationsEnabled: s.notificationsEnabled,
+      profileName: s.profileName,
+      profileImagePath: s.profileImagePath,
+    );
   }
 
   Future<String> exportBackup() async => _repository.exportBackup();
 
   Future<void> importBackup(String json) async {
     await _repository.importBackup(json);
-    state = _repository.getSettings();
+    final s = _repository.getSettings();
+    state = SettingsModel(
+      isDarkMode: s.isDarkMode,
+      notificationsEnabled: s.notificationsEnabled,
+      profileName: s.profileName,
+      profileImagePath: s.profileImagePath,
+    );
+  }
+
+  Future<void> updateProfile(String name, String imagePath) async {
+    final settings = _repository.getSettings();
+    settings.profileName = name;
+    settings.profileImagePath = imagePath;
+    await _repository.updateSettings(settings);
+    final s = _repository.getSettings();
+    state = SettingsModel(
+      isDarkMode: s.isDarkMode,
+      notificationsEnabled: s.notificationsEnabled,
+      profileName: s.profileName,
+      profileImagePath: s.profileImagePath,
+    );
   }
 }
 

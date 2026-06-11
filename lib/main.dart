@@ -60,7 +60,7 @@ class _NoteAlertAppState extends ConsumerState<NoteAlertApp> {
     final isDarkMode = ref.watch(isDarkModeProvider);
 
     return MaterialApp.router(
-      title: 'NoteAlert',
+      title: 'Sticky Notes',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,

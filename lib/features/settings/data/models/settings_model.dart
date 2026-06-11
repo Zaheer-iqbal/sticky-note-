@@ -3,16 +3,22 @@ import 'package:hive/hive.dart';
 class SettingsModel extends HiveObject {
   bool isDarkMode;
   bool notificationsEnabled;
+  String profileName;
+  String profileImagePath;
 
   SettingsModel({
     this.isDarkMode = false,
     this.notificationsEnabled = true,
+    this.profileName = 'Alex',
+    this.profileImagePath = '',
   });
 
   Map<String, dynamic> toJson() {
     return {
       'isDarkMode': isDarkMode,
       'notificationsEnabled': notificationsEnabled,
+      'profileName': profileName,
+      'profileImagePath': profileImagePath,
     };
   }
 
@@ -20,6 +26,8 @@ class SettingsModel extends HiveObject {
     return SettingsModel(
       isDarkMode: json['isDarkMode'] as bool? ?? false,
       notificationsEnabled: json['notificationsEnabled'] as bool? ?? true,
+      profileName: json['profileName'] as String? ?? 'Alex',
+      profileImagePath: json['profileImagePath'] as String? ?? '',
     );
   }
 }
@@ -40,6 +48,8 @@ class SettingsModelAdapter extends TypeAdapter<SettingsModel> {
     return SettingsModel(
       isDarkMode: fields[0] as bool? ?? false,
       notificationsEnabled: fields[1] as bool? ?? true,
+      profileName: fields[2] as String? ?? 'Alex',
+      profileImagePath: fields[3] as String? ?? '',
     );
   }
 
@@ -48,6 +58,8 @@ class SettingsModelAdapter extends TypeAdapter<SettingsModel> {
     final fields = <int, dynamic>{
       0: obj.isDarkMode,
       1: obj.notificationsEnabled,
+      2: obj.profileName,
+      3: obj.profileImagePath,
     };
     writer.writeByte(fields.length);
     for (final entry in fields.entries) {
